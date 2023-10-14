@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic ++</title>
+  </head>
+  <script>
+    const { webFrame } = require("electron");
+    function zoomOut() {
+      webFrame.setZoomFactor(webFrame.getZoomFactor() - 1);
+    }
+    function zoomIn() {
+      webFrame.setZoomFactor(webFrame.getZoomFactor() + 1);
+    }
+
+    // ipc btw render and main
+    const { ipcRenderer } = require("electron");
+    function shareData() {
+      console.warn("working");
+      ipcRenderer.send("msg", "Hello from Render");
+      ipcRenderer.on("back-msg", (event, agr) => {
+        console.warn(agr);
+      });
+    }
+  </script>
+  <body>
+    <h1 style="color: blueviolet">Parent pages</h1>
+    <p>right click to see context menue options</p>
+    <br />
+    <br />
+    <button onclick="zoomOut()">Zoom Out</button>
+    <button onclick="zoomIn()">Zoom In</button>
+    <br />
+    <br />
+    <button onclick="shareData()">Share Data</button>
+  </body>
+</html>
